@@ -1,490 +1,497 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecossistema LinkBahia - Uma Jornada Interativa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        background-color: #f1f5f9; /* slate-100 */
-      }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        
+        /* Estilos para elementos que serão animados */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-      /* Estilos para elementos que serão animados */
-      .fade-in-up {
-        opacity: 0;
-        transform: translateY(30px);
-        transition:
-          opacity 0.6s ease-out,
-          transform 0.6s ease-out;
-      }
-      .fade-in-up.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
+        /* Efeito de gradiente no texto */
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
 
-      /* Efeito de gradiente no texto */
-      .gradient-text {
-        background: linear-gradient(to right, #38bdf8, #6366f1);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-      }
-
-      /* Estilo para a barra de navegação fixa */
-      #navbar.scrolled {
-        background-color: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        box-shadow:
-          0 4px 6px -1px rgb(0 0 0 / 0.1),
-          0 2px 4px -2px rgb(0 0 0 / 0.1);
-      }
-      #navbar nav a.active {
-        color: #4f46e5; /* indigo-600 */
-        font-weight: 700;
-      }
+        /* Estilo para a barra de navegação fixa */
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        #navbar nav a.active {
+            color: #4f46e5; /* indigo-600 */
+            font-weight: 700;
+        }
+        .kpi-card .bar {
+            transition: width 1s ease-out;
+        }
+        .kpi-card .needle {
+            transition: transform 1s ease-out;
+        }
     </style>
-  </head>
-  <body class="text-slate-700">
+</head>
+<body class="text-slate-700">
+
     <!-- Barra de Navegação Fixa -->
     <header id="navbar" class="fixed top-0 left-0 right-0 z-50 p-4 transition-all duration-300">
-      <div class="container mx-auto flex justify-between items-center">
-        <a href="#hero" class="text-xl font-bold flex items-center gap-2">
-          <svg class="w-7 h-7 text-indigo-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 2L2 7V17L12 22L22 17V7L12 2Z"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M2 7L12 12"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path
-              d="M22 7L12 12"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M17 4.5L7 9.5"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <span class="hidden md:block">LinkBahia</span>
-        </a>
-        <nav class="flex space-x-3 md:space-x-6 text-sm font-semibold text-slate-600">
-          <a href="#identidade" class="hover:text-indigo-600 transition">Identidade</a>
-          <a href="#estrategia" class="hover:text-indigo-600 transition">Estratégia</a>
-          <a href="#modelagem" class="hover:text-indigo-600 transition">Modelagem</a>
-          <a href="#sistemas" class="hover:text-indigo-600 transition">Sistemas</a>
-        </nav>
-      </div>
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#hero" class="text-xl font-bold flex items-center gap-2">
+                <svg class="w-7 h-7 text-indigo-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 7L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 7L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 4.5L7 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="hidden md:block">LinkBahia</span>
+            </a>
+            <nav class="flex space-x-2 md:space-x-6 text-xs sm:text-sm font-semibold text-slate-600">
+                <a href="#identidade" class="hover:text-indigo-600 transition">Identidade</a>
+                <a href="#estrategia" class="hover:text-indigo-600 transition">Estratégia</a>
+                <a href="#modelagem" class="hover:text-indigo-600 transition">Modelagem</a>
+                <a href="#spt" class="hover:text-indigo-600 transition">SPT</a>
+                <a href="#ampliacao" class="hover:text-indigo-600 transition">Ampliação</a>
+                <a href="#sistemas" class="hover:text-indigo-600 transition">Sistemas</a>
+            </nav>
+        </div>
     </header>
 
     <main>
-      <!-- Secção 1: Herói -->
-      <section id="hero" class="h-screen min-h-[600px] flex items-center justify-center bg-slate-100 p-4">
-        <div class="text-center">
-          <h1 class="text-5xl md:text-7xl font-extrabold text-slate-800 mb-4">
-            Bem-vindo ao <span class="gradient-text">LinkBahia</span>
-          </h1>
-          <p class="text-lg text-slate-500 max-w-2xl mx-auto mb-8">
-            Role para baixo e embarque numa jornada interativa pelo plano de negócios do Espaço LinkBahia.
-          </p>
-          <div class="animate-bounce text-slate-500">
-            <svg
-              class="w-8 h-8 mx-auto"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </section>
+        <!-- Secção 1: Herói -->
+        <section id="hero" class="h-screen min-h-[600px] flex items-center justify-center bg-slate-100 p-4">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-slate-800 mb-4">Bem-vindo ao <span class="gradient-text">Ecossistema</span></h1>
+                <p class="text-lg text-slate-500 max-w-2xl mx-auto mb-8">Role para baixo e embarque numa jornada interativa pelo plano de negócios do Espaço LinkBahia.</p>
+                <div class="animate-bounce text-slate-500">
+                    <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </div>
+            </div>
+        </section>
 
-      <!-- Secção 2: Identidade -->
-      <section id="identidade" class="py-20 md:py-32 bg-white">
-        <div class="container mx-auto px-4">
-          <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Nossa Identidade</h2>
-            <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms">A base do nosso propósito.</p>
-          </div>
-          <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 200ms">
-              <h3 class="text-2xl font-bold text-sky-600 mb-3">Missão</h3>
-              <p class="text-slate-600">
-                Unir talentos e empreendedores para construir e fortalecer relações que transcendam o trabalho.
-              </p>
+        <!-- Secção 2: Identidade -->
+        <section id="identidade" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Nossa Identidade</h2>
+                    <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms;">A base do nosso propósito.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 200ms;">
+                        <h3 class="text-2xl font-bold text-sky-600 mb-3">Missão</h3>
+                        <p class="text-slate-600">Unir talentos e empreendedores para construir e fortalecer relações que transcendam o trabalho.</p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 300ms;">
+                        <h3 class="text-2xl font-bold text-indigo-600 mb-3">Visão</h3>
+                        <p class="text-slate-600">Ser o epicentro baiano de inovação inclusiva, fomentando 200 novos empreendimentos e gerando 1.000 empregos indiretos.</p>
+                    </div>
+                    <div class="md:col-span-2 bg-slate-50 p-8 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 400ms;">
+                        <h3 class="text-2xl font-bold text-emerald-600 mb-4 text-center">Valores</h3>
+                        <div class="flex flex-wrap justify-center gap-4 text-center">
+                            <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Criatividade</span>
+                            <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Inclusão</span>
+                            <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Diversidade</span>
+                            <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Sustentabilidade</span>
+                            <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Impacto</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-slate-50 p-8 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 300ms">
-              <h3 class="text-2xl font-bold text-indigo-600 mb-3">Visão</h3>
-              <p class="text-slate-600">
-                Ser o epicentro baiano de inovação inclusiva, fomentando 200 novos empreendimentos e gerando 1.000
-                empregos indiretos.
-              </p>
-            </div>
-            <div
-              class="md:col-span-2 bg-slate-50 p-8 rounded-xl border border-slate-200 fade-in-up"
-              style="transition-delay: 400ms"
-            >
-              <h3 class="text-2xl font-bold text-emerald-600 mb-4 text-center">Valores</h3>
-              <div class="flex flex-wrap justify-center gap-4 text-center">
-                <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Criatividade</span>
-                <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Inclusão</span>
-                <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Diversidade</span>
-                <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full"
-                  >Sustentabilidade</span
-                >
-                <span class="bg-emerald-100 text-emerald-800 font-semibold px-4 py-2 rounded-full">Impacto</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Secção 3: Estratégia -->
-      <section id="estrategia" class="py-20 md:py-32 bg-slate-100">
-        <div class="container mx-auto px-4">
-          <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Nosso Plano de Jogo</h2>
-            <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms">
-              Como transformaremos a visão em realidade.
-            </p>
-          </div>
-          <div class="bg-white p-8 rounded-xl shadow-lg mb-12 fade-in-up" style="transition-delay: 200ms">
-            <h3 class="text-2xl font-bold text-indigo-700 mb-6 text-center">Análise SWOT</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <!-- Forças -->
-              <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                <div class="flex items-center mb-2"><h4 class="font-bold text-lg text-green-800">Forças</h4></div>
-                <ul class="list-disc list-inside text-green-700 text-sm space-y-1">
-                  <li>Proposta de valor focada em inovação inclusiva.</li>
-                  <li>Modelo de negócio com forte impacto social.</li>
-                </ul>
-              </div>
-              <!-- Fraquezas -->
-              <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                <div class="flex items-center mb-2"><h4 class="font-bold text-lg text-yellow-800">Fraquezas</h4></div>
-                <ul class="list-disc list-inside text-yellow-700 text-sm space-y-1">
-                  <li>Dependência de políticas públicas para subsídios.</li>
-                  <li>Complexidade na gestão de múltiplos perfis de clientes.</li>
-                </ul>
-              </div>
-              <!-- Oportunidades -->
-              <div class="bg-sky-50 p-4 rounded-lg border border-sky-200">
-                <div class="flex items-center mb-2"><h4 class="font-bold text-lg text-sky-800">Oportunidades</h4></div>
-                <ul class="list-disc list-inside text-sky-700 text-sm space-y-1">
-                  <li>Pioneirismo como hub de inovação inclusiva.</li>
-                  <li>Potencial para expansão e criação de novas filiais.</li>
-                </ul>
-              </div>
-              <!-- Ameaças -->
-              <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-                <div class="flex items-center mb-2"><h4 class="font-bold text-lg text-red-800">Ameaças</h4></div>
-                <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
-                  <li>Concorrência com outros espaços de coworking.</li>
-                  <li>Instabilidade económica que afeta a procura.</li>
-                </ul>
-              </div>
+        <!-- Secção 3: Estratégia -->
+        <section id="estrategia" class="py-20 md:py-32 bg-slate-100">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Nosso Plano de Jogo</h2>
+                    <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms;">Como transformaremos a visão em realidade.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg mb-12 fade-in-up" style="transition-delay: 200ms;">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-6 text-center">Análise SWOT</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Forças --><div class="bg-green-50 p-4 rounded-lg border border-green-200"><div class="flex items-center mb-2"><h4 class="font-bold text-lg text-green-800">Forças</h4></div><ul class="list-disc list-inside text-green-700 text-sm space-y-1"><li>Proposta de valor focada em inovação inclusiva.</li><li>Modelo de negócio com forte impacto social.</li></ul></div>
+                        <!-- Fraquezas --><div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200"><div class="flex items-center mb-2"><h4 class="font-bold text-lg text-yellow-800">Fraquezas</h4></div><ul class="list-disc list-inside text-yellow-700 text-sm space-y-1"><li>Dependência de políticas públicas para subsídios.</li><li>Complexidade na gestão de múltiplos perfis de clientes.</li></ul></div>
+                        <!-- Oportunidades --><div class="bg-sky-50 p-4 rounded-lg border border-sky-200"><div class="flex items-center mb-2"><h4 class="font-bold text-lg text-sky-800">Oportunidades</h4></div><ul class="list-disc list-inside text-sky-700 text-sm space-y-1"><li>Pioneirismo como hub de inovação inclusiva.</li><li>Potencial para expansão e criação de novas filiais.</li></ul></div>
+                        <!-- Ameaças --><div class="bg-red-50 p-4 rounded-lg border border-red-200"><div class="flex items-center mb-2"><h4 class="font-bold text-lg text-red-800">Ameaças</h4></div><ul class="list-disc list-inside text-red-700 text-sm space-y-1"><li>Concorrência com outros espaços de coworking.</li><li>Instabilidade económica que afeta a procura.</li></ul></div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Secção 4: Modelagem do Sistema -->
-      <section id="modelagem" class="py-20 md:py-32 bg-white">
-        <div class="container mx-auto px-4">
-          <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Modelagem do Sistema</h2>
-            <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms">
-              A representação visual da nossa arquitetura e processos.
-            </p>
-          </div>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <!-- Diagrama de Casos de Uso -->
-            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 200ms">
-              <h3 class="font-bold text-center mb-4 text-xl text-indigo-700">Diagrama de Casos de Uso</h3>
-              <p class="text-center text-sm text-slate-500 mb-4">
-                Mostra as interações dos utilizadores (atores) com as principais funcionalidades do sistema.
-              </p>
-              <svg viewBox="0 0 300 200" class="w-full h-auto">
-                <!-- Atores -->
-                <text x="20" y="50" font-size="8" text-anchor="middle">👤</text>
-                <text x="20" y="60" font-size="7" text-anchor="middle">Membro</text>
-                <text x="280" y="50" font-size="8" text-anchor="middle">👤</text>
-                <text x="280" y="60" font-size="7" text-anchor="middle">Admin</text>
-                <!-- Caixa do Sistema -->
-                <rect x="70" y="10" width="160" height="180" rx="5" fill="none" stroke="#cbd5e1" stroke-width="1" />
-                <text x="150" y="22" font-size="6" text-anchor="middle" fill="#475569">Sistema LinkBahia</text>
-                <!-- Casos de Uso -->
-                <ellipse cx="150" cy="50" rx="40" ry="10" fill="#e0e7ff" stroke="#6366f1" />
-                <text x="150" y="52" font-size="6" text-anchor="middle">Fazer Reserva</text>
-                <ellipse cx="150" cy="80" rx="40" ry="10" fill="#e0e7ff" stroke="#6366f1" />
-                <text x="150" y="82" font-size="6" text-anchor="middle">Gerir Pagamentos</text>
-                <ellipse cx="150" cy="110" rx="40" ry="10" fill="#c7d2fe" stroke="#4338ca" />
-                <text x="150" y="112" font-size="6" text-anchor="middle">Gerir Membros</text>
-                <ellipse cx="150" cy="140" rx="40" ry="10" fill="#c7d2fe" stroke="#4338ca" />
-                <text x="150" y="142" font-size="6" text-anchor="middle">Gerar Relatórios</text>
-                <!-- Conexões -->
-                <line x1="40" y1="55" x2="110" y2="50" stroke="#64748b" stroke-width="0.5" />
-                <line x1="40" y1="55" x2="110" y2="80" stroke="#64748b" stroke-width="0.5" />
-                <line x1="260" y1="55" x2="190" y2="110" stroke="#64748b" stroke-width="0.5" />
-                <line x1="260" y1="55" x2="190" y2="140" stroke="#64748b" stroke-width="0.5" />
-              </svg>
-            </div>
+        <!-- Secção 4: Modelagem do Sistema -->
+        <section id="modelagem" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Modelagem do Sistema</h2>
+                    <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms;">A representação visual da nossa arquitetura e processos.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Diagrama de Casos de Uso -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 200ms;">
+                        <h3 class="font-bold text-center mb-4 text-xl text-indigo-700">Diagrama de Casos de Uso</h3>
+                        <p class="text-center text-sm text-slate-500 mb-4">Mostra as interações dos utilizadores (atores) com as principais funcionalidades do sistema.</p>
+                        <svg viewBox="0 0 300 200" class="w-full h-auto">
+                            <!-- Atores -->
+                            <text x="20" y="50" font-size="8" text-anchor="middle">👤</text>
+                            <text x="20" y="60" font-size="7" text-anchor="middle">Membro</text>
+                            <text x="280" y="50" font-size="8" text-anchor="middle">👤</text>
+                            <text x="280" y="60" font-size="7" text-anchor="middle">Admin</text>
+                            <!-- Caixa do Sistema -->
+                            <rect x="70" y="10" width="160" height="180" rx="5" fill="none" stroke="#cbd5e1" stroke-width="1"/>
+                            <text x="150" y="22" font-size="6" text-anchor="middle" fill="#475569">Sistema LinkBahia</text>
+                            <!-- Casos de Uso -->
+                            <ellipse cx="150" cy="50" rx="40" ry="10" fill="#e0e7ff" stroke="#6366f1"/>
+                            <text x="150" y="52" font-size="6" text-anchor="middle">Fazer Reserva</text>
+                            <ellipse cx="150" cy="80" rx="40" ry="10" fill="#e0e7ff" stroke="#6366f1"/>
+                            <text x="150" y="82" font-size="6" text-anchor="middle">Gerir Pagamentos</text>
+                            <ellipse cx="150" cy="110" rx="40" ry="10" fill="#c7d2fe" stroke="#4338ca"/>
+                            <text x="150" y="112" font-size="6" text-anchor="middle">Gerir Membros</text>
+                             <ellipse cx="150" cy="140" rx="40" ry="10" fill="#c7d2fe" stroke="#4338ca"/>
+                            <text x="150" y="142" font-size="6" text-anchor="middle">Gerar Relatórios</text>
+                            <!-- Conexões -->
+                            <line x1="40" y1="55" x2="110" y2="50" stroke="#64748b" stroke-width="0.5"/>
+                            <line x1="40" y1="55" x2="110" y2="80" stroke="#64748b" stroke-width="0.5"/>
+                            <line x1="260" y1="55" x2="190" y2="110" stroke="#64748b" stroke-width="0.5"/>
+                            <line x1="260" y1="55" x2="190" y2="140" stroke="#64748b" stroke-width="0.5"/>
+                        </svg>
+                    </div>
 
-            <!-- MER -->
-            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 300ms">
-              <h3 class="font-bold text-center mb-4 text-xl text-indigo-700">Modelo Entidade-Relacionamento</h3>
-              <p class="text-center text-sm text-slate-500 mb-4">
-                Representa a estrutura do nosso banco de dados, com as principais entidades e suas relações.
-              </p>
-              <svg viewBox="0 0 300 200" class="w-full h-auto">
-                <!-- Entidades -->
-                <rect x="10" y="85" width="60" height="30" rx="2" fill="#e0e7ff" stroke="#6366f1" />
-                <text x="40" y="95" font-size="6" text-anchor="middle">Membro</text>
-                <rect x="230" y="25" width="60" height="30" rx="2" fill="#e0e7ff" stroke="#6366f1" />
-                <text x="260" y="35" font-size="6" text-anchor="middle">Sala</text>
-                <rect x="230" y="145" width="60" height="30" rx="2" fill="#e0e7ff" stroke="#6366f1" />
-                <text x="260" y="155" font-size="6" text-anchor="middle">Pagamento</text>
-                <!-- Relacionamentos -->
-                <path d="M130 85 L 150 100 L 130 115 L 110 100 Z" fill="#c7d2fe" stroke="#4338ca" />
-                <text x="130" y="102" font-size="5" text-anchor="middle">Reserva</text>
-                <!-- Conexões -->
-                <line x1="70" y1="100" x2="110" y2="100" stroke="#64748b" stroke-width="0.5" />
-                <text x="85" y="97" font-size="6">1..1</text>
-                <text x="100" y="110" font-size="6">1..N</text>
-                <line x1="150" y1="100" x2="245" y2="40" stroke="#64748b" stroke-width="0.5" />
-                <text x="160" y="80" font-size="6">1..N</text>
-                <text x="235" y="50" font-size="6">1..1</text>
-                <line x1="150" y1="100" x2="245" y2="160" stroke="#64748b" stroke-width="0.5" />
-                <text x="160" y="120" font-size="6">1..1</text>
-                <text x="235" y="150" font-size="6">1..N</text>
-              </svg>
+                    <!-- MER -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 300ms;">
+                        <h3 class="font-bold text-center mb-4 text-xl text-indigo-700">Modelo Entidade-Relacionamento</h3>
+                        <p class="text-center text-sm text-slate-500 mb-4">Representa a estrutura do nosso banco de dados, com as principais entidades e suas relações.</p>
+                        <svg viewBox="0 0 300 200" class="w-full h-auto">
+                           <!-- Entidades -->
+                            <rect x="10" y="85" width="60" height="30" rx="2" fill="#e0e7ff" stroke="#6366f1"/>
+                            <text x="40" y="95" font-size="6" text-anchor="middle">Membro</text>
+                             <rect x="230" y="25" width="60" height="30" rx="2" fill="#e0e7ff" stroke="#6366f1"/>
+                            <text x="260" y="35" font-size="6" text-anchor="middle">Sala</text>
+                             <rect x="230" y="145" width="60" height="30" rx="2" fill="#e0e7ff" stroke="#6366f1"/>
+                            <text x="260" y="155" font-size="6" text-anchor="middle">Pagamento</text>
+                            <!-- Relacionamentos -->
+                            <path d="M130 85 L 150 100 L 130 115 L 110 100 Z" fill="#c7d2fe" stroke="#4338ca"/>
+                            <text x="130" y="102" font-size="5" text-anchor="middle">Reserva</text>
+                            <!-- Conexões -->
+                            <line x1="70" y1="100" x2="110" y2="100" stroke="#64748b" stroke-width="0.5" />
+                            <text x="85" y="97" font-size="6">1..1</text><text x="100" y="110" font-size="6">1..N</text>
+                            <line x1="150" y1="100" x2="245" y2="40" stroke="#64748b" stroke-width="0.5" />
+                             <text x="160" y="80" font-size="6">1..N</text><text x="235" y="50" font-size="6">1..1</text>
+                            <line x1="150" y1="100" x2="245" y2="160" stroke="#64748b" stroke-width="0.5" />
+                             <text x="160" y="120" font-size="6">1..1</text><text x="235" y="150" font-size="6">1..N</text>
+                        </svg>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- DFD Nível 0 -->
-            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 400ms">
-              <h3 class="font-bold text-center mb-4 text-xl text-indigo-700">DFD Nível 0 (Contexto)</h3>
-              <p class="text-center text-sm text-slate-500 mb-4">
-                A visão macro do fluxo de informações entre o sistema e suas entidades externas.
-              </p>
-              <svg viewBox="0 0 300 180" class="w-full h-auto">
-                <rect x="10" y="70" width="50" height="20" rx="2" fill="#e0f2f1" stroke="#0d9488" />
-                <text x="35" y="81" font-size="6" text-anchor="middle" fill="#0d9488">Membro</text>
-                <rect x="240" y="70" width="50" height="20" rx="2" fill="#e0f2f1" stroke="#0d9488" />
-                <text x="265" y="81" font-size="6" text-anchor="middle" fill="#0d9488">Direção</text>
-                <circle cx="150" cy="80" r="30" fill="#a7f3d0" stroke="#047857" stroke-width="1.5" />
-                <text x="150" y="78" font-size="5" text-anchor="middle" fill="#047857">Sistema de</text>
-                <text x="150" y="85" font-size="5" text-anchor="middle" fill="#047857">Gestão</text>
-                <path d="M60 80 H 120" stroke="#0d9488" stroke-width="0.5" marker-end="url(#arrow)" />
-                <text x="85" y="76" font-size="4" fill="#0d9488">Solicitação</text>
-                <path d="M180 80 H 240" stroke="#0d9488" stroke-width="0.5" marker-end="url(#arrow)" />
-                <text x="205" y="76" font-size="4" fill="#0d9488">Relatórios</text>
-                <defs>
-                  <marker
-                    id="arrow"
-                    viewBox="0 0 10 10"
-                    refX="5"
-                    refY="5"
-                    markerWidth="4"
-                    markerHeight="4"
-                    orient="auto-start-reverse"
-                  >
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#0d9488" />
-                  </marker>
-                </defs>
-              </svg>
-            </div>
+        <!-- Secção 5: Sistemas de Processamento de Transações (SPT) -->
+        <section id="spt" class="py-20 md:py-32 bg-slate-100">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Sistemas de Processamento de Transações (SPT)</h2>
+                    <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms;">A base das nossas operações diárias.</p>
+                </div>
+                <div class="max-w-6xl mx-auto space-y-16">
+                    <div class="fade-in-up bg-white p-8 rounded-xl shadow-lg" style="transition-delay: 200ms;">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-4">Contexto e Processos</h3>
+                        <p class="text-slate-600 mb-4">Na definição dos sistemas, identificámos dois processos transacionais críticos: o gerenciamento de reservas e o suporte técnico (Help Desk). Estes sistemas são a espinha dorsal da experiência do cliente no dia a dia.</p>
+                        <div class="space-y-4 text-slate-600 border-t pt-4">
+                            <p><strong>Reserva de espaços:</strong> Um sistema para que as equipas agendem os espaços. O processo envolve verificar a disponibilidade, selecionar a sala, definir horas e responsáveis, e por fim, a aprovação por um atendente do LinkBahia.</p>
+                            <p><strong>Chamados internos de suporte:</strong> Um sistema para que os clientes comuniquem problemas técnicos. O processo envolve o registo do chamado (pelo cliente ou atendente), o acionamento da equipa de suporte e o acompanhamento do status até à resolução.</p>
+                        </div>
+                    </div>
 
-            <!-- DFD Nível 1 -->
-            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 fade-in-up" style="transition-delay: 500ms">
-              <h3 class="font-bold text-center mb-4 text-xl text-indigo-700">DFD Nível 1 (Reservas)</h3>
-              <p class="text-center text-sm text-slate-500 mb-4">
-                Um mergulho no processo de "Realizar Reserva", detalhando os seus sub-processos.
-              </p>
-              <svg viewBox="0 0 300 200" class="w-full h-auto">
-                <!-- Processos -->
-                <circle cx="150" cy="50" r="25" fill="#a7f3d0" stroke="#047857" />
-                <text x="150" y="48" font-size="4" text-anchor="middle">1.1 Consultar</text>
-                <text x="150" y="54" font-size="4" text-anchor="middle">Disponibilidade</text>
-                <circle cx="150" cy="120" r="25" fill="#a7f3d0" stroke="#047857" />
-                <text x="150" y="118" font-size="4" text-anchor="middle">1.2 Confirmar</text>
-                <text x="150" y="124" font-size="4" text-anchor="middle">Reserva</text>
-                <!-- Entidade Externa -->
-                <text x="20" y="80" font-size="8">👤</text>
-                <text x="20" y="90" font-size="7" text-anchor="middle">Membro</text>
-                <!-- Data Stores -->
-                <rect x="230" y="40" width="60" height="20" fill="none" stroke="#0d9488" stroke-width="0.5" />
-                <line x1="235" y1="40" x2="235" y2="60" stroke="#0d9488" stroke-width="0.5" />
-                <text x="260" y="52" font-size="5" text-anchor="middle">Salas</text>
-                <rect x="230" y="110" width="60" height="20" fill="none" stroke="#0d9488" stroke-width="0.5" />
-                <line x1="235" y1="110" x2="235" y2="130" stroke="#0d9488" stroke-width="0.5" />
-                <text x="260" y="122" font-size="5" text-anchor="middle">Reservas</text>
-                <!-- Fluxos -->
-                <path
-                  d="M40 85 C 80 60, 100 50, 125 50"
-                  fill="none"
-                  stroke="#0d9488"
-                  stroke-width="0.5"
-                  marker-end="url(#arrow)"
-                />
-                <path d="M175 50 H 230" fill="none" stroke="#0d9488" stroke-width="0.5" marker-end="url(#arrow)" />
-                <path
-                  d="M150 75 V 95"
-                  fill="none"
-                  stroke="#0d9488"
-                  stroke-width="0.5"
-                  marker-end="url(#arrow)"
-                  marker-start="url(#arrow)"
-                />
-                <path d="M175 120 H 230" fill="none" stroke="#0d9488" stroke-width="0.5" marker-end="url(#arrow)" />
-              </svg>
+                    <div class="fade-in-up" style="transition-delay: 300ms;">
+                        <h3 class="text-2xl font-bold text-indigo-700 mb-8 text-center">Fluxogramas dos Processos (Swimlane)</h3>
+                        <div class="space-y-16">
+                            <!-- Fluxograma de Reservas -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h4 class="font-bold text-center mb-6 text-xl text-emerald-700">Fluxograma: Reserva de Espaços</h4>
+                                <svg viewBox="0 0 400 300" class="w-full h-auto">
+                                    <defs><marker id="arrow-spt" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#334155" /></marker></defs>
+                                    <!-- Swimlanes -->
+                                    <g fill="#f8fafc" stroke="#e2e8f0">
+                                        <rect x="0" y="0" width="100" height="300"/>
+                                        <rect x="100" y="0" width="200" height="300"/>
+                                        <rect x="300" y="0" width="100" height="300"/>
+                                    </g>
+                                    <g font-size="8" font-weight="bold" fill="#475569">
+                                        <text x="50" y="15" text-anchor="middle">👤 Cliente</text>
+                                        <text x="200" y="15" text-anchor="middle">⚙️ Sistema</text>
+                                        <text x="350" y="15" text-anchor="middle">👤 Atendente</text>
+                                    </g>
+                                    <!-- Process Flow -->
+                                    <g font-size="7" text-anchor="middle" fill="#1e293b">
+                                        <ellipse cx="50" cy="40" rx="25" ry="10" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="50" y="42">Início</text>
+                                        <path d="M50 50 V 65" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="15" y="65" width="70" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="50" y="72">Fornece Dados</text><text x="50" y="80">(equipa, horário)</text>
+                                        <path d="M85 75 H 130" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="130" y="65" width="80" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="170" y="77">Verificar Disponibilidade</text>
+                                        <path d="M210 75 H 240" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <path d="M240 65 L 260 75 L 240 85 L 220 75 Z" fill="#fefce8" stroke="#eab308"/>
+                                        <text x="240" y="77">Disponível?</text>
+                                        <path d="M240 85 V 100 H 85" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)" fill="none"/><text x="160" y="97" font-size="6">Não</text>
+                                        <rect x="15" y="100" width="70" height="20" rx="3" fill="#fef2f2" stroke="#ef4444"/><text x="50" y="112">Vê Indisponibilidade</text>
+                                        <path d="M260 75 H 280 V 125" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)" fill="none"/><text x="270" y="100" font-size="6">Sim</text>
+                                        <rect x="15" y="125" width="70" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/><text x="50" y="137">Seleciona Sala</text>
+                                        <path d="M85 135 H 130" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="130" y="125" width="80" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/><text x="170" y="137">Gera Solicitação</text>
+                                        <path d="M210 135 H 315" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="315" y="125" width="70" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/><text x="350" y="137">Avalia Solicitação</text>
+                                        <path d="M350 145 V 160" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <path d="M350 160 L 370 170 L 350 180 L 330 170 Z" fill="#fefce8" stroke="#eab308"/><text x="350" y="172">Aceitar?</text>
+                                        <path d="M330 170 H 210" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/><text x="270" y="167" font-size="6">Sim</text>
+                                        <rect x="130" y="160" width="80" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/><text x="170" y="172">Registra Reserva</text>
+                                        <path d="M170 180 V 195" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="130" y="195" width="80" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/><text x="170" y="207">Atualiza Status</text>
+                                        <path d="M130 205 H 85" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="15" y="195" width="70" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/><text x="50" y="207">Recebe Status</text>
+                                        <path d="M350 180 V 220 H 210" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)" fill="none"/><text x="280" y="200" font-size="6">Não</text>
+                                        <rect x="130" y="220" width="80" height="20" rx="3" fill="#fef2f2" stroke="#ef4444"/><text x="170" y="232">Notifica Cliente</text>
+                                    </g>
+                                </svg>
+                            </div>
+                             <!-- Fluxograma de Suporte -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h4 class="font-bold text-center mb-6 text-xl text-emerald-700">Fluxograma: Chamado de Suporte</h4>
+                                <svg viewBox="0 0 400 300" class="w-full h-auto">
+                                    <g fill="#f8fafc" stroke="#e2e8f0">
+                                        <rect x="0" y="0" width="133" height="300"/>
+                                        <rect x="133" y="0" width="134" height="300"/>
+                                        <rect x="267" y="0" width="133" height="300"/>
+                                    </g>
+                                    <g font-size="8" font-weight="bold" fill="#475569">
+                                        <text x="66.5" y="15" text-anchor="middle">👤 Cliente</text>
+                                        <text x="200" y="15" text-anchor="middle">⚙️ Sistema</text>
+                                        <text x="333.5" y="15" text-anchor="middle">🔧 Suporte</text>
+                                    </g>
+                                     <g font-size="7" text-anchor="middle" fill="#1e293b">
+                                        <ellipse cx="66.5" cy="40" rx="25" ry="10" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="66.5" y="42">Início</text>
+                                        <path d="M66.5 50 V 65" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="16.5" y="65" width="100" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="66.5" y="77">Registra Problema</text>
+                                        <path d="M116.5 75 H 150" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="150" y="65" width="100" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="200" y="77">Cria e Notifica Chamado</text>
+                                        <path d="M250 75 H 283.5" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="283.5" y="65" width="100" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="333.5" y="77">Equipa Recebe Chamado</text>
+                                        <path d="M333.5 85 V 100" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="283.5" y="100" width="100" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="333.5" y="112">Confirma Deslocamento</text>
+                                        <path d="M283.5 110 H 250" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="150" y="100" width="100" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="200" y="112">Atualiza Status</text>
+                                        <path d="M150 110 H 116.5" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="16.5" y="100" width="100" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="66.5" y="112">Cliente Recebe Status</text>
+                                        <path d="M333.5 120 V 135" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="283.5" y="135" width="100" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="333.5" y="147">Resolve Problema</text>
+                                        <path d="M283.5 145 H 250" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <rect x="150" y="135" width="100" height="20" rx="3" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="200" y="147">Fecha Chamado</text>
+                                        <path d="M200 155 V 170" stroke="#334155" stroke-width="0.5" marker-end="url(#arrow-spt)"/>
+                                        <ellipse cx="200" cy="180" rx="25" ry="10" fill="#f0fdf4" stroke="#22c55e"/>
+                                        <text x="200" y="182">Fim</text>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </section>
+        
+        <!-- Secção 6: Ampliação da Aplicação dos Sistemas -->
+        <section id="ampliacao" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Ampliação da Aplicação dos Sistemas</h2>
+                    <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms;">Além do transacional: como geraremos valor estratégico.</p>
+                </div>
+                <div class="max-w-5xl mx-auto space-y-16">
+                    <!-- SAE -->
+                    <div class="fade-in-up bg-slate-50 p-8 rounded-xl border border-slate-200" style="transition-delay: 200ms;">
+                        <h3 class="text-2xl font-bold text-sky-600 mb-4">Sistema de Apoio ao Executivo (SAE)</h3>
+                        <p class="text-slate-600 mb-6">O painel de controlo da Direção Geral, com uma visão holística e visual dos indicadores chave de desempenho (KPIs) para decisões estratégicas.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 kpi-card">
+                            <div class="bg-white p-4 rounded-lg shadow text-center">
+                                <h4 class="font-bold text-slate-700">Impacto Social</h4>
+                                <p class="text-sm text-slate-500 mb-2">Meta: 40% Subsidiados</p>
+                                <div class="w-full bg-slate-200 rounded-full h-6">
+                                    <div class="bar bg-sky-500 h-6 rounded-full" style="width: 0%;" data-value="25%"></div>
+                                </div>
+                                <p class="text-right font-bold text-sky-600 mt-1 text-lg">25%</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow text-center">
+                                <h4 class="font-bold text-slate-700">Satisfação (NPS)</h4>
+                                <p class="text-sm text-slate-500 mb-2">Nível Excelente</p>
+                                <div class="relative w-32 h-16 mx-auto">
+                                    <div class="absolute bottom-0 left-0 right-0 h-16 border-8 border-b-0 border-slate-200 rounded-t-full"></div>
+                                    <div class="absolute bottom-0 left-0 right-0 h-16 border-8 border-b-0 border-green-500 rounded-t-full" style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 100%);"></div>
+                                    <div class="needle absolute bottom-0 left-1/2 w-0.5 h-14 bg-slate-800 origin-bottom" style="transform: translateX(-50%) rotate(60deg);"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow text-center">
+                                <h4 class="font-bold text-slate-700">Crescimento (M/M)</h4>
+                                <p class="text-sm text-slate-500 mb-2">Novos Membros</p>
+                                <p class="text-3xl font-extrabold text-sky-600">+15%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- SAE's e STC -->
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <div class="fade-in-up bg-slate-50 p-8 rounded-xl border border-slate-200" style="transition-delay: 300ms;">
+                            <h3 class="text-2xl font-bold text-emerald-600 mb-4">Sistema de Automação de Escritório (SAE’s)</h3>
+                            <p class="text-slate-600 mb-4">Visa aumentar a produtividade e padronizar processos, como o onboarding de novos membros.</p>
+                            <div class="border-t pt-4">
+                                <p class="font-semibold mb-2">Fluxo de Onboarding:</p>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-center gap-2"><span class="bg-emerald-200 text-emerald-800 rounded-full w-6 h-6 flex items-center justify-center font-bold">1</span><span>Lead "ganho" no CRM.</span></li>
+                                    <li class="flex items-center gap-2"><span class="bg-emerald-200 text-emerald-800 rounded-full w-6 h-6 flex items-center justify-center font-bold">2</span><span>Contrato enviado para assinatura digital.</span></li>
+                                    <li class="flex items-center gap-2"><span class="bg-emerald-200 text-emerald-800 rounded-full w-6 h-6 flex items-center justify-center font-bold">3</span><span>E-mail de boas-vindas automático.</span></li>
+                                    <li class="flex items-center gap-2"><span class="bg-emerald-200 text-emerald-800 rounded-full w-6 h-6 flex items-center justify-center font-bold">4</span><span>Criação de tarefa para a receção.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="fade-in-up bg-slate-50 p-8 rounded-xl border border-slate-200" style="transition-delay: 400ms;">
+                            <h3 class="text-2xl font-bold text-violet-600 mb-4">Sistema de Trabalhadores do Conhecimento (STC)</h3>
+                            <p class="text-slate-600 mb-4">Uma plataforma colaborativa (Notion, Confluence) para ser o cérebro da organização.</p>
+                             <div class="border-t pt-4">
+                                <p class="font-semibold mb-2">Benefícios:</p>
+                                <ul class="space-y-2 text-sm list-disc list-inside">
+                                    <li>Documentar metodologias e processos.</li>
+                                    <li>Construir um banco de dados de insights.</li>
+                                    <li>Gerir projetos de inovação.</li>
+                                    <li>Evitar a perda de conhecimento.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <!-- Secção 5: Sistemas -->
-      <section id="sistemas" class="py-20 md:py-32 bg-slate-100">
-        <div class="container mx-auto px-4">
-          <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Inteligência do Negócio</h2>
-            <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms">
-              Os sistemas que nos dão o poder de agir.
-            </p>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div
-              class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 text-center fade-in-up"
-              style="transition-delay: 200ms"
-            >
-              <h3 class="text-lg font-bold text-rose-600">ERP</h3>
-              <p class="text-sm text-slate-500 mt-1">Para gestão financeira, contratos e RH.</p>
+        <!-- Secção 7: Sistemas -->
+        <section id="sistemas" class="py-20 md:py-32 bg-slate-100">
+             <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-slate-800 mb-2 fade-in-up">Resumo dos Sistemas</h2>
+                    <p class="text-lg text-slate-500 fade-in-up" style="transition-delay: 100ms;">As ferramentas tecnológicas que dão o poder de agir.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 text-center fade-in-up" style="transition-delay: 200ms;">
+                        <h3 class="text-lg font-bold text-rose-600">ERP</h3>
+                        <p class="text-sm text-slate-500 mt-1">Para gestão financeira, contratos e RH.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 text-center fade-in-up" style="transition-delay: 300ms;">
+                        <h3 class="text-lg font-bold text-sky-600">Gestão de Reservas</h3>
+                        <p class="text-sm text-slate-500 mt-1">Para agendamento de salas e controlo de ocupação.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 text-center fade-in-up" style="transition-delay: 400ms;">
+                        <h3 class="text-lg font-bold text-amber-600">CRM</h3>
+                        <p class="text-sm text-slate-500 mt-1">Para acompanhamento de clientes e pós-venda.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 text-center fade-in-up" style="transition-delay: 500ms;">
+                        <h3 class="text-lg font-bold text-emerald-600">Help Desk</h3>
+                        <p class="text-sm text-slate-500 mt-1">Para registo de chamados de suporte.</p>
+                    </div>
+                </div>
             </div>
-            <div
-              class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 text-center fade-in-up"
-              style="transition-delay: 300ms"
-            >
-              <h3 class="text-lg font-bold text-sky-600">Gestão de Reservas</h3>
-              <p class="text-sm text-slate-500 mt-1">Para agendamento de salas e controlo de ocupação.</p>
-            </div>
-            <div
-              class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 text-center fade-in-up"
-              style="transition-delay: 400ms"
-            >
-              <h3 class="text-lg font-bold text-amber-600">CRM</h3>
-              <p class="text-sm text-slate-500 mt-1">Para acompanhamento de clientes e pós-venda.</p>
-            </div>
-            <div
-              class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 text-center fade-in-up"
-              style="transition-delay: 500ms"
-            >
-              <h3 class="text-lg font-bold text-emerald-600">Help Desk</h3>
-              <p class="text-sm text-slate-500 mt-1">Para registo de chamados de suporte.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+
     </main>
-
+    
     <footer class="bg-slate-800 text-slate-400 py-8 text-center">
-      <p>&copy; 2025 Espaço LinkBahia. Todos os direitos reservados.</p>
+        <p>&copy; 2024 Espaço LinkBahia. Todos os direitos reservados.</p>
     </footer>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        /**
-         * Lógica de animação ao rolar a página.
-         * Usa IntersectionObserver para adicionar a classe 'visible'
-         * a elementos quando eles entram no ecrã.
-         */
-        const animatedElements = document.querySelectorAll('.fade-in-up');
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            const kpiCards = document.querySelectorAll('.kpi-card');
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-              }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Animações específicas para os KPIs quando visíveis
+                        if (entry.target.classList.contains('kpi-card')) {
+                            const bar = entry.target.querySelector('.bar');
+                            if (bar) {
+                                bar.style.width = bar.dataset.value;
+                            }
+                            const needle = entry.target.querySelector('.needle');
+                            if (needle) {
+                                // Exemplo: NPS de 8.2 -> (8.2/10) * 180 - 90 = 57.6 graus
+                                needle.style.transform = 'translateX(-50%) rotate(58deg)';
+                            }
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1
             });
-          },
-          {
-            threshold: 0.1, // Ativa quando 10% do elemento está visível
-          },
-        );
 
-        animatedElements.forEach((el) => {
-          observer.observe(el);
+            animatedElements.forEach(el => observer.observe(el));
+            kpiCards.forEach(card => observer.observe(card));
+
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('#navbar nav a');
+            const sections = document.querySelectorAll('main section');
+
+            const updateActiveLink = () => {
+                let currentSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+            
+            const handleNavScroll = () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                updateActiveLink();
+            };
+
+            window.addEventListener('scroll', handleNavScroll);
+            updateActiveLink();
         });
-
-        /**
-         * Lógica para a barra de navegação.
-         * Adiciona uma classe 'scrolled' quando a página é rolada
-         * e atualiza o link ativo com base na secção visível.
-         */
-        const navbar = document.getElementById('navbar');
-        const navLinks = document.querySelectorAll('#navbar nav a');
-        const sections = document.querySelectorAll('main section');
-
-        // Função para atualizar o link ativo
-        const updateActiveLink = () => {
-          let currentSection = '';
-          sections.forEach((section) => {
-            const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 100) {
-              currentSection = section.getAttribute('id');
-            }
-          });
-
-          navLinks.forEach((link) => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === currentSection) {
-              link.classList.add('active');
-            }
-          });
-        };
-
-        // Função para gerir o fundo da barra de navegação
-        const handleNavScroll = () => {
-          if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-          } else {
-            navbar.classList.remove('scrolled');
-          }
-          updateActiveLink();
-        };
-
-        // Adiciona os ouvintes de evento
-        window.addEventListener('scroll', handleNavScroll);
-        updateActiveLink(); // Define o link ativo no carregamento da página
-      });
     </script>
-  </body>
+</body>
 </html>
